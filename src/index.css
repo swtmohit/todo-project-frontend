@@ -1,0 +1,58 @@
+:root {
+  font-family: "Nunito Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #e2e8f0;
+  background: #0f172a;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --bg: #f6f8fc;
+  --panel: rgba(255, 255, 255, 0.94);
+  --surface: #ffffff;
+  --input-bg: #ffffff;
+  --border: #d8e2ef;
+  --heading: #102033;
+  --muted: #62748a;
+  --accent: #2563eb;
+  --accent-soft: #e8f1ff;
+  --accent-strong: #1d4ed8;
+  --success: #0f9f6e;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --shadow: 0 18px 50px rgba(33, 50, 77, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.08), transparent 32%),
+    linear-gradient(180deg, #f8fbff 0%, #eef4f8 100%);
+  color: var(--heading);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+  width: min(1440px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 20px 0 40px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
