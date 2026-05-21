@@ -50,8 +50,8 @@ http://localhost:5173
 
 - Local frontend URL: `http://localhost:5173`
 - Local backend API base URL: `http://localhost:5000/api`
-- Production frontend URL: Not configured in this repository
-- Production backend URL: Not configured in this repository
+- Production frontend URL: `https://todo-project-frontend-kappa.vercel.app`
+- Production backend API base URL: `https://todo-project-backend-38jn.onrender.com/api`
 
 ## Folder Structure
 
@@ -105,3 +105,9 @@ The frontend consumes the following backend APIs:
 
 - All protected API requests use a Bearer token stored after login or signup.
 - API base URLs are read from `VITE_API_BASE_URL`, so frontend files should not contain hardcoded backend URLs.
+
+### Production Env Example
+
+```env
+VITE_API_BASE_URL=https://todo-project-backend-38jn.onrender.com/api
+```
