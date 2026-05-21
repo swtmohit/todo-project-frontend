@@ -52,6 +52,7 @@ function App() {
   const [isLogoutLoading, setIsLogoutLoading] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [pendingDelete, setPendingDelete] = useState(null)
+  const [updatingTaskIds, setUpdatingTaskIds] = useState({})
   const [projects, setProjects] = useState([])
   const [activeProjectId, setActiveProjectId] = useState(null)
 
@@ -338,20 +339,29 @@ function App() {
       return
     }
 
-    await updateTaskRequest(taskId, { status: nextStatus }, storedToken)
+    try {
+      setUpdatingTaskIds((current) => ({ ...current, [taskId]: true }))
+      await updateTaskRequest(taskId, { status: nextStatus }, storedToken)
 
-    setProjects((currentProjects) =>
-      currentProjects.map((project) =>
-        project.id === activeProject.id
-          ? {
-              ...project,
-              tasks: project.tasks.map((task) =>
-                task.id === taskId ? { ...task, status: nextStatus } : task,
-              ),
-            }
-          : project,
-      ),
-    )
+      setProjects((currentProjects) =>
+        currentProjects.map((project) =>
+          project.id === activeProject.id
+            ? {
+                ...project,
+                tasks: project.tasks.map((task) =>
+                  task.id === taskId ? { ...task, status: nextStatus } : task,
+                ),
+              }
+            : project,
+        ),
+      )
+    } finally {
+      setUpdatingTaskIds((current) => {
+        const { [taskId]: removed, ...rest } = current
+        void removed
+        return rest
+      })
+    }
   }
 
   const handleMoveTask = async (taskId, nextStatus) => {
@@ -384,18 +394,27 @@ function App() {
       return
     }
 
-    await updateTaskRequest(taskId, { status: nextStatus }, storedToken)
+    try {
+      setUpdatingTaskIds((current) => ({ ...current, [taskId]: true }))
+      await updateTaskRequest(taskId, { status: nextStatus }, storedToken)
 
-    setProjects((currentProjects) =>
-      currentProjects.map((project) =>
-        project.id === activeProject.id
-          ? {
-              ...project,
-              tasks: project.tasks.map((task) => (task.id === taskId ? { ...task, status: nextStatus } : task)),
-            }
-          : project,
-      ),
-    )
+      setProjects((currentProjects) =>
+        currentProjects.map((project) =>
+          project.id === activeProject.id
+            ? {
+                ...project,
+                tasks: project.tasks.map((task) => (task.id === taskId ? { ...task, status: nextStatus } : task)),
+              }
+            : project,
+        ),
+      )
+    } finally {
+      setUpdatingTaskIds((current) => {
+        const { [taskId]: removed, ...rest } = current
+        void removed
+        return rest
+      })
+    }
   }
 
   if (isAuthLoading) {
@@ -459,6 +478,7 @@ function App() {
                 tasks={activeProject.tasks}
                 onAdvanceTask={handleStatusChange}
                 onMoveTask={handleMoveTask}
+                updatingTaskIds={updatingTaskIds}
                 onDeleteTask={requestDeleteTask}
               />
             </>

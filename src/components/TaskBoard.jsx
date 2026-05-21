@@ -1,7 +1,7 @@
 import TaskColumn from './TaskColumn'
 import { TASK_STATUSES } from '../utils/taskUtils'
 
-function TaskBoard({ tasks, onAdvanceTask, onMoveTask, onDeleteTask }) {
+function TaskBoard({ tasks, onAdvanceTask, onMoveTask, onDeleteTask, updatingTaskIds }) {
   return (
     <section className="board-grid">
       {TASK_STATUSES.map((status) => (
@@ -12,6 +12,7 @@ function TaskBoard({ tasks, onAdvanceTask, onMoveTask, onDeleteTask }) {
           onAdvanceTask={onAdvanceTask}
           onMoveTask={onMoveTask}
           onDeleteTask={onDeleteTask}
+          updatingTaskIds={updatingTaskIds}
         />
       ))}
     </section>

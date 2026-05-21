@@ -1,7 +1,7 @@
 import TaskCard from './TaskCard'
 import { useState } from 'react'
 
-function TaskColumn({ title, tasks, onAdvanceTask, onMoveTask, onDeleteTask }) {
+function TaskColumn({ title, tasks, onAdvanceTask, onMoveTask, onDeleteTask, updatingTaskIds }) {
   const [isDragOver, setIsDragOver] = useState(false)
 
   const handleDragOver = (event) => {
@@ -50,6 +50,7 @@ function TaskColumn({ title, tasks, onAdvanceTask, onMoveTask, onDeleteTask }) {
               task={task}
               onAdvanceTask={onAdvanceTask}
               onDeleteTask={onDeleteTask}
+              isUpdating={Boolean(updatingTaskIds?.[task.id])}
             />
           ))
         ) : (

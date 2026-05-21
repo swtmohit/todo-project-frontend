@@ -9,17 +9,28 @@ function TrashIcon() {
   )
 }
 
-function TaskCard({ task, onAdvanceTask, onDeleteTask }) {
+function TaskCard({ task, onAdvanceTask, onDeleteTask, isUpdating }) {
   const nextActionLabel = getNextActionLabel(task.status)
   const isCompleted = task.status === 'Done'
 
   const handleDragStart = (event) => {
+    if (isUpdating) {
+      event.preventDefault()
+      return
+    }
+
     event.dataTransfer.setData('text/task-id', task.id)
     event.dataTransfer.effectAllowed = 'move'
   }
 
   return (
-    <article className="card task-card" draggable onDragStart={handleDragStart}>
+    <article
+      className={`card task-card ${isUpdating ? 'is-updating' : ''}`}
+      draggable={!isUpdating}
+      onDragStart={handleDragStart}
+      aria-busy={isUpdating ? 'true' : 'false'}
+    >
+      {isUpdating ? <div className="task-card-loader" aria-hidden="true" /> : null}
       <div className="task-card-top">
         <div className="task-card-heading">
           <span className={`status-pill ${task.status.toLowerCase().replaceAll(' ', '-')}`}>{task.status}</span>
@@ -29,6 +40,7 @@ function TaskCard({ task, onAdvanceTask, onDeleteTask }) {
             aria-label={`Delete ${task.title}`}
             title="Delete task"
             onClick={() => onDeleteTask(task.id)}
+            disabled={isUpdating}
           >
             <TrashIcon />
           </button>
@@ -44,9 +56,9 @@ function TaskCard({ task, onAdvanceTask, onDeleteTask }) {
           type="button"
           className="btn btn-outline-primary ghost-button"
           onClick={() => onAdvanceTask(task.id)}
-          disabled={isCompleted}
+          disabled={isCompleted || isUpdating}
         >
-          {nextActionLabel}
+          {isUpdating ? 'Updating…' : nextActionLabel}
         </button>
       </div>
     </article>
