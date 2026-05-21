@@ -354,6 +354,50 @@ function App() {
     )
   }
 
+  const handleMoveTask = async (taskId, nextStatus) => {
+    if (!activeProject) {
+      return
+    }
+
+    const storedToken = getStoredToken()
+    const selectedTask = activeProject.tasks.find((task) => task.id === taskId)
+
+    if (!storedToken || !selectedTask) {
+      return
+    }
+
+    if (selectedTask.status === nextStatus) {
+      return
+    }
+
+    if (selectedTask.id.length === 36) {
+      setProjects((currentProjects) =>
+        currentProjects.map((project) =>
+          project.id === activeProject.id
+            ? {
+                ...project,
+                tasks: project.tasks.map((task) => (task.id === taskId ? { ...task, status: nextStatus } : task)),
+              }
+            : project,
+        ),
+      )
+      return
+    }
+
+    await updateTaskRequest(taskId, { status: nextStatus }, storedToken)
+
+    setProjects((currentProjects) =>
+      currentProjects.map((project) =>
+        project.id === activeProject.id
+          ? {
+              ...project,
+              tasks: project.tasks.map((task) => (task.id === taskId ? { ...task, status: nextStatus } : task)),
+            }
+          : project,
+      ),
+    )
+  }
+
   if (isAuthLoading) {
   return (
     <main className="auth-shell container">
@@ -414,6 +458,7 @@ function App() {
               <TaskBoard
                 tasks={activeProject.tasks}
                 onAdvanceTask={handleStatusChange}
+                onMoveTask={handleMoveTask}
                 onDeleteTask={requestDeleteTask}
               />
             </>

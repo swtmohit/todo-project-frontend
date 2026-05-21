@@ -96,7 +96,7 @@
   align-items: center;
   gap: 20px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   background:
     linear-gradient(135deg, rgba(37, 99, 235, 0.11), transparent 35%),
     var(--panel);
@@ -124,6 +124,110 @@
   gap: 12px;
   position: relative;
   z-index: 1;
+}
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-trigger {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(216, 226, 239, 0.92);
+  background: rgba(255, 255, 255, 0.75);
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.profile-trigger:hover,
+.profile-trigger:focus-visible {
+  background: #ffffff;
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+
+.profile-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.profile-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(15, 159, 110, 0.16));
+  color: var(--heading);
+  font-weight: 800;
+}
+
+.profile-avatar svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  opacity: 0.9;
+}
+
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 200px;
+  border-radius: 16px;
+  background: rgba(16, 32, 51, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.28);
+  padding: 8px;
+  display: grid;
+  gap: 6px;
+}
+
+.profile-dropdown-item {
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: transparent;
+  color: rgba(226, 232, 240, 0.95);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 650;
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.profile-dropdown-item svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  opacity: 0.9;
+}
+
+.profile-dropdown-item:hover,
+.profile-dropdown-item:focus-visible {
+  background: rgba(148, 163, 184, 0.16);
+}
+
+.profile-dropdown-item.logout {
+  color: #fecaca;
+}
+
+.logout-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 16px;
+  line-height: 1;
 }
 
 .topbar-badge,
@@ -467,6 +571,20 @@
 .task-column {
   min-height: 390px;
   background: rgba(255, 255, 255, 0.78);
+}
+
+.task-column.drag-over {
+  outline: 2px solid rgba(37, 99, 235, 0.45);
+  outline-offset: 2px;
+  box-shadow: 0 22px 60px rgba(37, 99, 235, 0.12);
+}
+
+.task-card {
+  cursor: grab;
+}
+
+.task-card:active {
+  cursor: grabbing;
 }
 
 .column-header span {

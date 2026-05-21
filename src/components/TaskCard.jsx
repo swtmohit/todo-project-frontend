@@ -13,8 +13,13 @@ function TaskCard({ task, onAdvanceTask, onDeleteTask }) {
   const nextActionLabel = getNextActionLabel(task.status)
   const isCompleted = task.status === 'Done'
 
+  const handleDragStart = (event) => {
+    event.dataTransfer.setData('text/task-id', task.id)
+    event.dataTransfer.effectAllowed = 'move'
+  }
+
   return (
-    <article className="card task-card">
+    <article className="card task-card" draggable onDragStart={handleDragStart}>
       <div className="task-card-top">
         <div className="task-card-heading">
           <span className={`status-pill ${task.status.toLowerCase().replaceAll(' ', '-')}`}>{task.status}</span>
